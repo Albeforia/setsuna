@@ -1,0 +1,7 @@
+/** @dir src/include/setsuna
+@brief Directory for core setsuna library headers
+*/
+
+/** @namespace setsuna
+@brief The core setsuna library
+*/

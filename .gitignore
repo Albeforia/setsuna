@@ -1,0 +1,4 @@
+dependencies
+doc/build*
+**/cotire.cmake
+*.bak

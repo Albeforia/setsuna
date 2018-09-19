@@ -1,0 +1,9 @@
+@INCLUDE                = doxyconf
+
+GENERATE_HTML           = NO
+GENERATE_XML            = YES
+XML_PROGRAMLISTING      = NO
+
+OUTPUT_DIRECTORY        = doc/build-mcss/
+PROJECT_BRIEF           = docs
+XML_NAMESPACE_MEMBERS_IN_FILE_SCOPE = YES
