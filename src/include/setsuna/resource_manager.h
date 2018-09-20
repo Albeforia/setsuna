@@ -47,12 +47,14 @@ public:
 	@brief Load resource using a loader of type @p loader_t
 
 	@param params Parameters to construct a loader of type @p loader_t
+
+	@return A @p std::shared_ptr<loader_t>
 	*/
 	template<typename loader_t, typename... args>
 	auto load(args&&... params) {
 		loader_ptr loader = std::make_shared<loader_t>(params...);
 		load(loader);
-		return loader;
+		return std::static_pointer_cast<loader_t>(loader);
 	}
 
 	/**
