@@ -6,6 +6,21 @@
 
 namespace setsuna {
 
+shader_program::shader_program() :
+    m_program{0} {}
+
+shader_program::~shader_program() {
+	for (std::size_t i = 0; i < m_shaders.size(); i++) {
+		glDetachShader(m_program, m_shaders[i]);
+		glDeleteShader(m_shaders[i]);
+	}
+	m_shaders.clear();
+
+	if (m_program != 0) {
+		glDeleteProgram(m_program);
+	}
+}
+
 void shader_program::add_shader(shader_type type, std::string_view filename) {
 	std::string src;
 
@@ -93,6 +108,11 @@ GLuint shader_program::create_shader(GLenum target, const std::string& source) {
 }
 
 void shader_program::compile() {
+	if (m_program != 0) {
+		LOG_WARNING("Recompiling the program is not allowed");
+		return;
+	}
+
 	auto program = glCreateProgram();
 	for (std::size_t i = 0; i < m_shaders.size(); i++) {
 		glAttachShader(program, m_shaders[i]);
@@ -116,10 +136,18 @@ void shader_program::compile() {
 	}
 	m_shaders.clear();
 
-	m_program = program;
+	if (status == GL_FALSE) {
+		glDeleteProgram(program);
+		m_program = 0;
+	}
+	else {
+		m_program = program;
+	}
 }
 
 GLint shader_program::get_uniform_location(std::string_view& name) {
+	if (m_program == 0) return 0xFFFFFFFF;
+
 	GLint location;
 	uniform_name uname(name);
 	auto search = m_uniforms.find(uname);
@@ -208,7 +236,7 @@ uniform_name::uniform_name(std::string_view name) :
     hash{std::hash<std::string_view>{}(name)} {}
 
 /*
-This is right iff we assume no hash collision
+HACK This is right iff we assume no hash collision
 */
 bool operator==(const setsuna::uniform_name& lhs, const setsuna::uniform_name& rhs) {
 	return lhs.hash == rhs.hash;

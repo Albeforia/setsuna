@@ -54,7 +54,12 @@ public:
 	/**
 	@brief Default constructor
 	*/
-	shader_program() = default;
+	shader_program();
+
+	/**
+	@brief Destructor
+	*/
+	~shader_program();
 
 	/**
 	@brief Copying is not allowed
@@ -72,6 +77,11 @@ public:
 
 	/**
 	@brief Compile the added shaders
+
+	Note regardless of success or not, the added shaders will be deleted.
+
+	Though OpenGL allows relinking the program, call this on a successfully compiled
+	program will not recompile it. Just create another program instead.
 	*/
 	void compile();
 
