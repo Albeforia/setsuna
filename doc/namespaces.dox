@@ -2,6 +2,10 @@
 @brief Directory for core setsuna library headers
 */
 
+/** @dir setsuna_loaders/include/setsuna_loaders
+@brief Directory for setsuna_loaders library headers
+*/
+
 /** @namespace setsuna
 @brief The core setsuna library
 */

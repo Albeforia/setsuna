@@ -4,6 +4,8 @@
 #include <setsuna/update_visitor.h>
 #include <setsuna/shader_program.h>
 #include <setsuna/geometry.h>
+#include <setsuna/resource_manager.h>
+#include <setsuna_loaders/texture_loader.h>
 
 using namespace setsuna;
 
@@ -34,6 +36,9 @@ private:
 		                               -glm::pi<float>() * 1.4f, glm::pi<float>() * 0.65f);
 		//m_test_mesh = geometry::plane(2, 2);
 
+		// setup texture
+		m_test_loader = resource_manager::instance().load<texture_loader>("textures/wood.jpg");
+
 		// setup shader
 		m_shader_program.add_shader(shader_type::ST_VERTEX, "shaders/simple.vert");
 		m_shader_program.add_shader(shader_type::ST_FRAGMENT, "shaders/simple.frag");
@@ -44,7 +49,7 @@ private:
 		glViewport(0, 0, m_framebuffer_width, m_framebuffer_height);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 
 	void update() override {
@@ -56,9 +61,13 @@ private:
 	void render() override {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		auto texaddr = m_test_loader->get()->address();
+
 		m_shader_program.upload_uniform("world", glm::mat4(1.0));
 		m_shader_program.upload_uniform("view",
 		                                m_camera->view_matrix());
+		m_shader_program.upload_uniform("u_tex.unit", (int)texaddr.unit);
+		m_shader_program.upload_uniform("u_tex.layer", (int)texaddr.layer);
 
 		m_test_mesh->render();
 	}
@@ -75,6 +84,7 @@ private:
 	camera* m_camera;
 
 	ref<mesh> m_test_mesh;
+	std::shared_ptr<texture_loader> m_test_loader;
 
 	shader_program m_shader_program;
 };

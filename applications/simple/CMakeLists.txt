@@ -10,5 +10,5 @@ set_target_properties(app_simple
 target_link_libraries(app_simple
     setsuna
     setsuna_app
-    #setsuna_loaders
+    setsuna_loaders
 )
