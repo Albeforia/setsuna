@@ -1,4 +1,5 @@
 #include <setsuna/rtti_prefix.h>
+#include <setsuna/resource_manager.h>
 
 namespace setsuna {
 

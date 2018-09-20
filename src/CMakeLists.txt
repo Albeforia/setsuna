@@ -10,6 +10,7 @@ set(SETSUNA_HEADER_FILES
     #${SETSUNA_INCLUDE_DIR}/setsuna/directed_graph.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/frustum.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/geometry.h
+    ${SETSUNA_INCLUDE_DIR}/setsuna/loader.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/logger.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/mesh.h
     #${SETSUNA_INCLUDE_DIR}/setsuna/mesh_filter.h
