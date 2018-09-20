@@ -11,6 +11,9 @@ For any cpp file that include header files below, include this prefix header ins
 #include <setsuna/camera.h>
 //#include <setsuna/mesh_filter.h>
 //#include <setsuna/mesh_renderer.h>
-#include <setsuna/resource_manager.h>
+
 #include <setsuna/resource.h>
 #include <setsuna/mesh.h>
+#include <setsuna/texture.h>
+
+#include <setsuna/loader.h>

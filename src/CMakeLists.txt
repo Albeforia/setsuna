@@ -26,10 +26,10 @@ set(SETSUNA_HEADER_FILES
     ${SETSUNA_INCLUDE_DIR}/setsuna/rtti.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/shader_program.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/sphere.h
-    #${SETSUNA_INCLUDE_DIR}/setsuna/texture.h
-    #${SETSUNA_INCLUDE_DIR}/setsuna/texture_container.h
-    #${SETSUNA_INCLUDE_DIR}/setsuna/texture_manager.h
-    #${SETSUNA_INCLUDE_DIR}/setsuna/texture_property.h
+    ${SETSUNA_INCLUDE_DIR}/setsuna/texture.h
+    ${SETSUNA_INCLUDE_DIR}/setsuna/texture_container.h
+    ${SETSUNA_INCLUDE_DIR}/setsuna/texture_manager.h
+    ${SETSUNA_INCLUDE_DIR}/setsuna/texture_property.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/transform.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/update_visitor.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/visitor.h
@@ -49,9 +49,9 @@ set(SETSUNA_SOURCE_FILES
     resource.cpp
     resource_manager.cpp
     shader_program.cpp
-    #texture.cpp
-    #texture_container.cpp
-    #texture_manager.cpp
+    texture.cpp
+    texture_container.cpp
+    texture_manager.cpp
     update_visitor.cpp
     ${GLAD_ROOT_DIR}/src/glad.c
 )
