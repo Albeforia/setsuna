@@ -20,7 +20,7 @@ using texture_unit = GLuint;
 /**
 @brief Texture layer
 
-Every @ref setsuna::texture is actually located at one layer of some container.
+Every @ref setsuna::texture is actually located at one layer of some texture array.
 The combination of @p texture_layer and @ref setsuna::texture_unit forms the address
 of a texture i.e. @ref setsuna::texture_address .
 */

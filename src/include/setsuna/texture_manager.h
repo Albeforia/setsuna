@@ -18,6 +18,17 @@ class texture_manager {
 
 public:
 	/**
+	@brief Texture manager option
+
+	Default value: @p sparse=true @p max_layers=1024
+	*/
+	struct option {
+		bool sparse;         /**< @brief Whether to use sparse texture array */
+		uint32_t max_layers; /**< @brief Max number of layers per texture array */
+	};
+
+public:
+	/**
 	@brief Get the texture manager singleton
 	*/
 	static texture_manager& instance() {
@@ -45,6 +56,19 @@ public:
 	*/
 	ref<texture> default_texture() const { return *m_default_texture; }
 
+	/**
+	@brief Set the option
+
+	The new setting will take effect next time the manager creates a new
+	texture array.
+
+	@attention Keep @ref option::max_layers low if not using sparse texture array,
+	because the memory for all layers is allocated even if only one texture is required.
+	*/
+	void set_option(const option& opt) {
+		m_option = opt;
+	}
+
 	/*
 	Only called by texture
 	*/
@@ -67,8 +91,9 @@ private:
 	// keep a reference of default texture in case that it is automatically destroyed
 	ref<texture>* m_default_texture;
 
-	GLsizei m_max_container_layers;
 	GLsizei m_max_texture_units;
+
+	option m_option;
 };
 
 // for key comparison
