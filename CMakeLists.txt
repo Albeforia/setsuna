@@ -7,7 +7,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Modules
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
-include(cotire)
+include(cotire OPTIONAL)
 
 # Build mode
 set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose build type (Debug, Release, RelWithDebInfo, or MinSizeRel)")

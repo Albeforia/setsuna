@@ -69,10 +69,11 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC ${GLAD_ROOT_DIR}/include
 )
 
-set_target_properties(${PROJECT_NAME} PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT
-    ${SETSUNA_INCLUDE_DIR}/setsuna/rtti_prefix.h
-)
+if(COMMAND cotire)
+    set_target_properties(${PROJECT_NAME} PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT
+        ${SETSUNA_INCLUDE_DIR}/setsuna/rtti_prefix.h
+    )
+    set_target_properties(${PROJECT_NAME} PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
-
-cotire(${PROJECT_NAME})
+    cotire(${PROJECT_NAME})
+endif()
