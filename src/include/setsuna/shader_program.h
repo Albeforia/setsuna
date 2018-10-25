@@ -14,12 +14,23 @@
 
 namespace setsuna {
 
+struct texture_address;
+
 /**
 @brief Shader type
 */
 enum class shader_type {
 	ST_VERTEX,  /**< @brief Vertex shader */
 	ST_FRAGMENT /**< @brief Fragment shader */
+};
+
+/*
+A uniform variable of struct type can take up multiple locations
+*/
+struct uniform_info {
+
+	std::string type;
+	std::vector<GLint> locations;
 };
 
 /**
@@ -98,6 +109,11 @@ public:
 	void upload_uniform(std::string_view name, const glm::mat4&);
 
 	/**
+	@brief Upload uniform variable
+	*/
+	void upload_uniform(std::string_view name, const texture_address&);
+
+	/**
 	@brief Use the shader program
 	*/
 	void apply();
@@ -107,14 +123,14 @@ private:
 
 	GLuint create_shader(GLenum target, const std::string& source);
 
-	GLint get_uniform_location(std::string_view& name);
+	GLint* get_uniform_location(std::string_view& name);
 
 private:
 	GLuint m_program;
 	std::vector<GLuint> m_shaders;
 
 	// specify a transparent comparator so that we can lookup string by string_view
-	std::map<std::string, GLint, std::less<>> m_uniforms;
+	std::map<std::string, uniform_info, std::less<>> m_uniforms;
 
 	// glsl 'header guard'
 	std::unordered_set<std::string> m_includes;
