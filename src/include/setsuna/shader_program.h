@@ -5,35 +5,12 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <string_view>
-#include <unordered_map>
+#include <map>
 #include <unordered_set>
 
 /** @file
 @brief Header for @ref setsuna::shader_program
 */
-
-namespace setsuna {
-
-/*
-Just a workaround so that we can find uniform by string_view
-*/
-struct uniform_name {
-
-	uniform_name(std::string_view);
-
-	std::size_t hash;
-};
-}  // namespace setsuna
-
-namespace std {
-template<>
-struct hash<setsuna::uniform_name> {
-	size_t operator()(const setsuna::uniform_name& un) const {
-		return un.hash;
-	}
-};
-
-}  // namespace std
 
 namespace setsuna {
 
@@ -135,11 +112,12 @@ private:
 private:
 	GLuint m_program;
 	std::vector<GLuint> m_shaders;
-	std::unordered_map<uniform_name, GLint> m_uniforms;
 
-	std::unordered_set<std::string> m_includes;  // glsl 'header guard'
+	// specify a transparent comparator so that we can lookup string by string_view
+	std::map<std::string, GLint, std::less<>> m_uniforms;
+
+	// glsl 'header guard'
+	std::unordered_set<std::string> m_includes;
 };
-
-bool operator==(const setsuna::uniform_name& lhs, const setsuna::uniform_name& rhs);
 
 }  // namespace setsuna

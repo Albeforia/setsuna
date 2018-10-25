@@ -149,15 +149,14 @@ GLint shader_program::get_uniform_location(std::string_view& name) {
 	if (m_program == 0) return 0xFFFFFFFF;
 
 	GLint location;
-	uniform_name uname(name);
-	auto search = m_uniforms.find(uname);
+	auto search = m_uniforms.find(name);  // O(log(n))
 	if (search != m_uniforms.end()) {
-		location = m_uniforms[uname];
+		location = search->second;
 	}
 	else {
 		location = glGetUniformLocation(m_program, name.data());
 		if (location != 0xFFFFFFFF) {
-			m_uniforms[uname] = location;
+			m_uniforms.emplace(name, location);
 		}
 		else {
 			LOG_WARNING("The uniform variable \"%s\" doesn't exist", name.data())
@@ -230,16 +229,6 @@ void shader_program::apply() {
 	}
 #endif
 	glUseProgram(m_program);
-}
-
-uniform_name::uniform_name(std::string_view name) :
-    hash{std::hash<std::string_view>{}(name)} {}
-
-/*
-HACK This is right iff we assume no hash collision
-*/
-bool operator==(const setsuna::uniform_name& lhs, const setsuna::uniform_name& rhs) {
-	return lhs.hash == rhs.hash;
 }
 
 }  // namespace setsuna
