@@ -35,6 +35,15 @@ struct uniform_info {
 
 /**
 @brief Shader program
+
+The 'include mechanism' is implemented for GLSL, to include another shader file
+just write like C/C++:
+	
+	@code{.cpp}
+	#include <shared/attributes.glh>
+	@endcode
+
+The path is relative to the current shader file and must have '.glh' as its suffix.
 */
 class shader_program {
 
