@@ -46,7 +46,7 @@ void shader_program::add_shader(shader_type type, std::string_view filename) {
 }
 
 bool shader_program::read_file(std::string_view filename, std::string& content) {
-	static std::regex r_include(R"(#include\s*<([A-Za-z0-9_]+\.glsl)>)");
+	static std::regex r_include(R"(#include\s*<([A-Za-z0-9_/]+\.glh)>)");
 	static std::regex r_uniform(R"((?:layout\(.*\))?\s*uniform\s+(\w+)\s+(\w+)(?:\[\d+\])?\s*;)");
 
 	// TODO string_view::data may return a non-null-terminated string
