@@ -17,6 +17,12 @@ you are responsible to convert if necessary.
 struct color {
 
 	/**
+	@brief Construct a solid white color
+	*/
+	constexpr color() :
+	    color(0xFFFFFF) {}
+
+	/**
 	@brief Construct a color from @p r , @p g , @p b , @p a values
 	*/
 	constexpr color(float r, float g, float b, float a) :
