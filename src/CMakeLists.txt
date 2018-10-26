@@ -12,6 +12,8 @@ set(SETSUNA_HEADER_FILES
     ${SETSUNA_INCLUDE_DIR}/setsuna/geometry.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/loader.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/logger.h
+    ${SETSUNA_INCLUDE_DIR}/setsuna/material.h
+    ${SETSUNA_INCLUDE_DIR}/setsuna/material_instance.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/mesh.h
     #${SETSUNA_INCLUDE_DIR}/setsuna/mesh_filter.h
     #${SETSUNA_INCLUDE_DIR}/setsuna/mesh_renderer.h
@@ -41,6 +43,7 @@ set(SETSUNA_SOURCE_FILES
     frustum.cpp
     geometry.cpp
     logger.cpp
+    material.cpp
     mesh.cpp
     #mesh_renderer.cpp
     object3d.cpp

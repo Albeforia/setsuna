@@ -15,5 +15,6 @@ For any cpp file that include header files below, include this prefix header ins
 #include <setsuna/resource.h>
 #include <setsuna/mesh.h>
 #include <setsuna/texture.h>
+#include <setsuna/material_instance.h>
 
 #include <setsuna/loader.h>
