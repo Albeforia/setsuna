@@ -25,6 +25,8 @@ Material instances must be generated from a material, see @ref setsuna::material
 for usage. Usually if two objects have the same material appearance, they could
 share the same material instance. Modifying the shared material instance would affect
 both objects simultaneously.
+
+@see @ref setsuna::material
 */
 class material_instance : public resource {
 
@@ -41,13 +43,13 @@ public:
 	@tparam T Type of the property, has 1-to-1 correspondence with
 	@ref setsuna::material::property_type
 
-	@return An optional reference of the queried property
+	@return An optional reference of the queried property, i.e. @p optional<reference_wrapper<T>>
 
-	For scalar property, @p T should be @p float;
+	For scalar property, @p T should be float;
 
 	for color property, @p T should be @ref setsuna::color;
 
-	for texture property, @p T should be @p ref<texture>.
+	for texture property, @p T should be ref<texture>.
 
 	The @p name and the type @p T should match the definition of the material that
 	generates this instance, otherwise the returned reference is invalid.

@@ -48,6 +48,9 @@ auto mat_instance = pbrmat.create_instance();
 mat_instance->property<float>("roughness")->get() = 0.5f;
 @endcode
 
+@attention The lifetime of a material must outlive the ones of instances that
+generated from it.
+
 @see @ref setsuna::material_instance
 */
 class material {
