@@ -16,7 +16,7 @@ set(SETSUNA_HEADER_FILES
     ${SETSUNA_INCLUDE_DIR}/setsuna/material_instance.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/mesh.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/mesh_filter.h
-    #${SETSUNA_INCLUDE_DIR}/setsuna/mesh_renderer.h
+    ${SETSUNA_INCLUDE_DIR}/setsuna/mesh_renderer.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/object3d.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/plane.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/ref.h
@@ -45,7 +45,7 @@ set(SETSUNA_SOURCE_FILES
     logger.cpp
     material.cpp
     mesh.cpp
-    #mesh_renderer.cpp
+    mesh_renderer.cpp
     object3d.cpp
     #render_pass.cpp
     #render_system.cpp
