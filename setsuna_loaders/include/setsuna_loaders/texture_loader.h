@@ -16,6 +16,21 @@ namespace setsuna {
 @brief Texture loader based on stb image
 
 Supported formats: 8bit per-channel JPEG/PNG/BMP/TGA
+
+Usage example:
+
+@code{.cpp}
+resource_manager::instance().load<texture_loader>(
+	[&albedo](ref<resource> loaded) {
+		albedo = static_cast<texture*>(loaded.get());
+	},
+	"textures/wood.jpg"
+);
+@endcode
+
+The callback lambda in the above code captures the target texture
+'albedo' by reference assuming it has not been released at the time
+the callback is invoked.
 */
 class texture_loader : public loader {
 
@@ -42,14 +57,13 @@ public:
 
 	bool match(const loader&) const override;
 
-public:
 	/**
 	@brief Get the loading result
 
 	@return Return the loaded texture if loading has finished,
 	otherwise return the fallback texture
 	*/
-	ref<resource> get() const { return const_cast<texture*>(m_texture.get()); }
+	ref<resource> get() const override { return m_texture; }
 
 protected:
 	std::string m_image_name;
