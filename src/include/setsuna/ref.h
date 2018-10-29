@@ -36,6 +36,15 @@ public:
 	}
 
 	/**
+	@brief Copy-construct via implicit conversion
+	*/
+	template<typename U>
+	ref(const ref<U>& other) :
+	    m_ptr{const_cast<U*>(other.get())} {
+		if (m_ptr) m_ptr->ref();
+	}
+
+	/**
 	@brief Construct from a raw pointer @p ptr
 	*/
 	ref(T* ptr) :
@@ -65,6 +74,19 @@ public:
 		if (m_ptr == other.m_ptr) return *this;
 		if (m_ptr) m_ptr->unref();
 		m_ptr = other.m_ptr;
+		if (m_ptr) m_ptr->ref();
+		return *this;
+	}
+
+	/**
+	@brief Copy assignment via implicit conversion
+	*/
+	template<typename U>
+	ref& operator=(const ref<U>& other) {
+		auto other_ptr = const_cast<U*>(other.get());
+		if (m_ptr == other_ptr) return *this;
+		if (m_ptr) m_ptr->unref();
+		m_ptr = other_ptr;
 		if (m_ptr) m_ptr->ref();
 		return *this;
 	}
