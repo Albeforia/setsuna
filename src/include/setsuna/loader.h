@@ -1,6 +1,9 @@
 #pragma once
 
-#include <setsuna/rtti.h>
+#include <setsuna/resource.h>
+#include <setsuna/ref.h>
+#include <functional>
+#include <vector>
 
 /** @file
 @brief Header for @ref setsuna::loader
@@ -21,7 +24,14 @@ class loader {
 
 	RTTI_ENABLE(loader)
 
+	friend class resource_manager;
+
 public:
+	/**
+	@brief 
+	*/
+	using callback_t = std::function<void(ref<resource>)>;
+
 	/**
 	@brief Default constructor
 	*/
@@ -65,6 +75,14 @@ public:
 	@brief Indicate if two loaders load the same resource
 	*/
 	virtual bool match(const loader&) const = 0;
+
+	/**
+	@brief Get the loading result
+	*/
+	virtual ref<resource> get() const = 0;
+
+private:
+	std::vector<callback_t> m_callbacks;
 };
 
 }  // namespace setsuna

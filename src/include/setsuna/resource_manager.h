@@ -8,6 +8,7 @@
 #include <memory>
 #include <queue>
 #include <vector>
+#include <optional>
 
 /** @file
 @brief Header for @ref setsuna::resource_manager
@@ -51,9 +52,10 @@ public:
 	@return A @p std::shared_ptr<loader_t>
 	*/
 	template<typename loader_t, typename... args>
-	auto load(args&&... params) {
+	auto load(std::optional<loader::callback_t> callback,
+	          args&&... params) {
 		loader_ptr loader = std::make_shared<loader_t>(params...);
-		load(loader);
+		load(loader, callback);
 		return std::static_pointer_cast<loader_t>(loader);
 	}
 
@@ -72,7 +74,7 @@ private:
 
 	void loading_func();
 
-	void load(loader_ptr&);
+	void load(loader_ptr&, std::optional<loader::callback_t> callback);
 
 private:
 	enum class loading_status {

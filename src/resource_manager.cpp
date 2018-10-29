@@ -22,12 +22,16 @@ void resource_manager::shutdown() {
 	m_loaded_res.clear();
 }
 
-void resource_manager::load(loader_ptr& loader) {
+void resource_manager::load(loader_ptr& loader, std::optional<loader::callback_t> callback) {
 	// check if already loaded
 	for (const auto& loaded_loader : m_loaded_res) {
 		auto ptr = loaded_loader.lock();
 		if (ptr && ptr->match(*loader)) {
 			loader = ptr;
+			// just invoke callback directly since the resource has already loaded
+			if (callback) {
+				callback.value()(loader->get());
+			}
 			return;
 		}
 	}
@@ -37,12 +41,19 @@ void resource_manager::load(loader_ptr& loader) {
 		auto& loading_loader = pair.first;
 		if (loading_loader->match(*loader)) {
 			loader = loading_loader;
+			// save callback for later invocation
+			if (callback) {
+				loader->m_callbacks.emplace_back(callback.value());
+			}
 			return;
 		}
 	}
 
 	// new loading requests
 	loader->create_resource();
+	if (callback) {
+		loader->m_callbacks.emplace_back(callback.value());
+	}
 	auto status = std::make_shared<std::atomic<loading_status>>(loading_status::LS_LOADING);
 	m_loading_res.emplace_back(loader, status);
 	{
@@ -67,7 +78,12 @@ void resource_manager::update() {
 	for (auto it = m_loading_res.begin(); it != m_loading_res.end();) {
 		if (it->second->load() == loading_status::LS_COMPLETE) {
 			auto& loader = it->first;
+
 			loader->main_thread_stage();
+			for (auto& cb : loader->m_callbacks) {
+				cb(loader->get());
+			}
+
 			m_loaded_res.emplace_back(loader);
 
 			it = m_loading_res.erase(it);

@@ -49,7 +49,7 @@ public:
 	@return Return the loaded texture if loading has finished,
 	otherwise return the fallback texture
 	*/
-	ref<texture> get() const { return m_texture; }
+	ref<resource> get() const { return const_cast<texture*>(m_texture.get()); }
 
 protected:
 	std::string m_image_name;
