@@ -15,7 +15,7 @@ set(SETSUNA_HEADER_FILES
     ${SETSUNA_INCLUDE_DIR}/setsuna/material.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/material_instance.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/mesh.h
-    #${SETSUNA_INCLUDE_DIR}/setsuna/mesh_filter.h
+    ${SETSUNA_INCLUDE_DIR}/setsuna/mesh_filter.h
     #${SETSUNA_INCLUDE_DIR}/setsuna/mesh_renderer.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/object3d.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/plane.h
