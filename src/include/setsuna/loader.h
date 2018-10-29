@@ -28,7 +28,10 @@ class loader {
 
 public:
 	/**
-	@brief 
+	@brief Type of the callback function
+
+	The callback function should take one @p ref<resource> parameter
+	which represents the loaded resource and have no return values.
 	*/
 	using callback_t = std::function<void(ref<resource>)>;
 
@@ -78,6 +81,8 @@ public:
 
 	/**
 	@brief Get the loading result
+
+	A fallback resource should be returned if loading has not yet finished.
 	*/
 	virtual ref<resource> get() const = 0;
 

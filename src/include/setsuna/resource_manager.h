@@ -47,7 +47,8 @@ public:
 	/**
 	@brief Load resource using a loader of type @p loader_t
 
-	@param params Parameters to construct a loader of type @p loader_t
+	@param callback Optional callback to invoke when loading is done
+	@param params   Parameters to construct a loader of type @p loader_t
 
 	@return A @p std::shared_ptr<loader_t>
 	*/
