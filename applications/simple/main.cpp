@@ -5,7 +5,15 @@
 #include <setsuna/shader_program.h>
 #include <setsuna/geometry.h>
 #include <setsuna/resource_manager.h>
+#include <setsuna/texture_manager.h>
 #include <setsuna_loaders/texture_loader.h>
+
+#include <setsuna/material.h>
+#include <setsuna/material_instance.h>
+#include <setsuna/mesh_filter.h>
+#include <setsuna/mesh_renderer.h>
+
+#include "simple_culler.h"
 
 using namespace setsuna;
 
@@ -31,13 +39,32 @@ private:
 		                                         0.01f, 1000.0f);
 		camobj.local_transform.translation.z = 5;
 
+		// setup material
+		m_material.define_properties(material::SCALAR_PROPERTY, "roughness",
+		                             material::SCALAR_PROPERTY, "metalness",
+		                             material::COLOR_PROPERTY, "tint",
+		                             material::TEXTURE_PROPERTY, "albedo");
+
+		auto mi = m_material.create_instance();
+		mi->property<float>("roughness")->get() = 0.5f;
+		auto& albedo = mi->property<ref<texture>>("albedo")->get();
+
 		// setup mesh
-		m_test_mesh = geometry::sphere(2, 10, 10,
-		                               -glm::pi<float>() * 1.4f, glm::pi<float>() * 0.65f);
-		//m_test_mesh = geometry::plane(2, 2);
+		auto mesh = geometry::sphere(2, 10, 10,
+		                             -glm::pi<float>() * 1.4f, glm::pi<float>() * 0.65f);
+		auto& meshobj = m_scene->add_child();
+		meshobj.add_component<mesh_filter>(mesh);
+		auto& renderer = meshobj.add_component<mesh_renderer>();
+		renderer.material = mi;
 
 		// setup texture
-		m_test_loader = resource_manager::instance().load<texture_loader>("textures/wood.jpg");
+		//texture_manager::instance().set_option({false, 64});
+		auto loader = resource_manager::instance().load<texture_loader>(
+		  [&albedo](ref<resource> loaded) {
+			  albedo = static_cast<texture*>(loaded.get());
+		  },
+		  "textures/wood.jpg");
+		albedo = static_cast<texture*>(loader->get().get());
 
 		// setup shader
 		m_shader_program.add_shader(shader_type::ST_VERTEX, "shaders/simple.vert");
@@ -61,15 +88,19 @@ private:
 	void render() override {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		auto texaddr = m_test_loader->get()->address();
-
-		m_shader_program.upload_uniform("world", glm::mat4(1.0));
 		m_shader_program.upload_uniform("view",
 		                                m_camera->view_matrix());
-		m_shader_program.upload_uniform("u_tex.unit", (int)texaddr.unit);
-		m_shader_program.upload_uniform("u_tex.layer", (int)texaddr.layer);
 
-		m_test_mesh->render();
+		simple_culler sc(*m_camera, simple_culler::mode::CM_BOUNDING_BOX);
+		m_scene->accept(sc);
+
+		for (auto& item : sc.render_queue) {
+			m_shader_program.upload_uniform("world", item.world_matrix);
+			m_shader_program.upload_uniform("u_tex",
+			                                item.material->property<ref<texture>>("albedo")->get()->address());
+
+			item.mesh->render();
+		}
 	}
 
 	void on_framebuffer_resize(int width, int height) override {
@@ -82,10 +113,7 @@ private:
 private:
 	object3d* m_scene;
 	camera* m_camera;
-
-	ref<mesh> m_test_mesh;
-	std::shared_ptr<texture_loader> m_test_loader;
-
+	material m_material;
 	shader_program m_shader_program;
 };
 

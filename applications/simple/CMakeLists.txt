@@ -1,4 +1,6 @@
 add_executable(app_simple
+    simple_culler.h
+    simple_culler.cpp
     main.cpp
 )
 
