@@ -5,16 +5,12 @@
 #include <setsuna/ref.h>
 #include <string_view>
 #include <vector>
-#include <optional>
 
 /** @file
 @brief Header for @ref setsuna::material_instance
 */
 
 namespace setsuna {
-
-template<typename T>
-using optional_reference = std::optional<std::reference_wrapper<T>>;
 
 /**
 @brief Material instance
@@ -34,63 +30,64 @@ class material_instance : public resource {
 
 	friend class material;
 
-	using reftex = setsuna::ref<texture>;
-
 public:
 	/**
-	@brief Get or set the material property named @p name
+	@brief Get scalar property
 
-	@tparam T Type of the property, has 1-to-1 correspondence with
-	@ref setsuna::material::property_type
-
-	@return An optional reference of the queried property, i.e. @p optional<reference_wrapper<T>>
-
-	For scalar property, @p T should be float;
-
-	for color property, @p T should be @ref setsuna::color;
-
-	for texture property, @p T should be ref<texture>.
-
-	The @p name and the type @p T should match the definition of the material that
-	generates this instance, otherwise the returned reference is invalid.
+	Fetch the value of the property named @p name to @p out_value if it exists,
+	otherwise @p out_value is untouched and the return value is false.
 	*/
-	template<typename T>
-	optional_reference<T> property(std::string_view name) {
-		auto search = std::find_if(m_prototype->properties_begin(),
-		                           m_prototype->properties_end(),
-		                           [&name](const auto& p) { return p.m_name == name; });
-		if (search == m_prototype->properties_end()) {
-			return std::nullopt;
-		}
+	bool get_property(std::string_view name, float& out_value);
 
-		if constexpr (std::is_same_v<T, float>) {
-			if (search->m_type == material::SCALAR_PROPERTY) {
-				return m_scalars[search->m_index];
-			}
-		}
-		else if constexpr (std::is_same_v<T, color>) {
-			if (search->m_type == material::COLOR_PROPERTY) {
-				return m_colors[search->m_index];
-			}
-		}
-		else if constexpr (std::is_same_v<T, reftex>) {
-			if (search->m_type == material::TEXTURE_PROPERTY) {
-				return m_textures[search->m_index];
-			}
-		}
+	/**
+	@brief Get color property
 
-		return std::nullopt;
-	}
+	Fetch the value of the property named @p name to @p out_value if it exists,
+	otherwise @p out_value is untouched and the return value is false.
+	*/
+	bool get_property(std::string_view name, color& out_value);
+
+	/**
+	@brief Get texture property
+
+	Fetch the value of the property named @p name to @p out_value if it exists,
+	otherwise @p out_value is untouched and the return value is false.
+	*/
+	bool get_property(std::string_view name, setsuna::ref<texture>& out_value);
+
+	/**
+	@brief Set scalar property
+
+	The function will do nothing if @p name is an undefined property or
+	@p name is not a scalar property.
+	*/
+	void set_property(std::string_view name, float value);
+
+	/**
+	@brief Set color property
+
+	The function will do nothing if @p name is an undefined property or
+	@p name is not a color property.
+	*/
+	void set_property(std::string_view name, color value);
+
+	/**
+	@brief Set texture property
+
+	The function will do nothing if @p name is an undefined property or
+	@p name is not a texture property.
+	*/
+	void set_property(std::string_view name, setsuna::ref<texture> value);
 
 private:
-	material_instance(const material& prototype) :
-	    m_prototype{&prototype} {};
+	// only called by material
+	material_instance(const material& prototype);
 
 	const material* m_prototype;
 
 	std::vector<float> m_scalars;
 	std::vector<color> m_colors;
-	std::vector<reftex> m_textures;
+	std::vector<setsuna::ref<texture>> m_textures;
 };
 
 }  // namespace setsuna

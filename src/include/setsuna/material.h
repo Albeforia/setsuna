@@ -45,7 +45,7 @@ from previously defined material 'pbrmat' and sets its 'roughness' property to 0
 
 @code{.cpp}
 auto mat_instance = pbrmat.create_instance();
-mat_instance->property<float>("roughness")->get() = 0.5f;
+mat_instance->set_property("roughness", 0.5);
 @endcode
 
 @attention The lifetime of a material must outlive the ones of instances that

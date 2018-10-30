@@ -44,6 +44,7 @@ set(SETSUNA_SOURCE_FILES
     geometry.cpp
     logger.cpp
     material.cpp
+    material_instance.cpp
     mesh.cpp
     mesh_renderer.cpp
     object3d.cpp

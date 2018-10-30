@@ -44,10 +44,7 @@ private:
 		                             material::SCALAR_PROPERTY, "metalness",
 		                             material::COLOR_PROPERTY, "tint",
 		                             material::TEXTURE_PROPERTY, "albedo");
-
 		auto mi = m_material.create_instance();
-		mi->property<float>("roughness")->get() = 0.5f;
-		auto& albedo = mi->property<ref<texture>>("albedo")->get();
 
 		// setup mesh
 		auto mesh = geometry::sphere(2, 10, 10,
@@ -60,11 +57,11 @@ private:
 		// setup texture
 		//texture_manager::instance().set_option({false, 64});
 		auto loader = resource_manager::instance().load<texture_loader>(
-		  [&albedo](ref<resource> loaded) {
-			  albedo = static_cast<texture*>(loaded.get());
+		  [mi](ref<resource> loaded) mutable {
+			  mi->set_property("albedo", static_cast<texture*>(loaded.get()));
 		  },
 		  "textures/wood.jpg");
-		albedo = static_cast<texture*>(loader->get().get());
+		mi->set_property("albedo", static_cast<texture*>(loader->get().get()));
 
 		// setup shader
 		m_shader_program.add_shader(shader_type::ST_VERTEX, "shaders/simple.vert");
@@ -96,8 +93,10 @@ private:
 
 		for (auto& item : sc.render_queue) {
 			m_shader_program.upload_uniform("world", item.world_matrix);
+			ref<texture> tex;
+			item.material->get_property("albedo", tex);
 			m_shader_program.upload_uniform("u_tex",
-			                                item.material->property<ref<texture>>("albedo")->get()->address());
+			                                tex->address());
 
 			item.mesh->render();
 		}
