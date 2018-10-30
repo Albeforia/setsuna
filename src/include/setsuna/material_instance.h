@@ -37,7 +37,7 @@ public:
 	Fetch the value of the property named @p name to @p out_value if it exists,
 	otherwise @p out_value is untouched and the return value is false.
 	*/
-	bool get_property(std::string_view name, float& out_value);
+	bool get_property(std::string_view name, float& out_value) const;
 
 	/**
 	@brief Get color property
@@ -45,7 +45,7 @@ public:
 	Fetch the value of the property named @p name to @p out_value if it exists,
 	otherwise @p out_value is untouched and the return value is false.
 	*/
-	bool get_property(std::string_view name, color& out_value);
+	bool get_property(std::string_view name, color& out_value) const;
 
 	/**
 	@brief Get texture property
@@ -53,7 +53,7 @@ public:
 	Fetch the value of the property named @p name to @p out_value if it exists,
 	otherwise @p out_value is untouched and the return value is false.
 	*/
-	bool get_property(std::string_view name, setsuna::ref<texture>& out_value);
+	bool get_property(std::string_view name, setsuna::ref<texture>& out_value) const;
 
 	/**
 	@brief Set scalar property

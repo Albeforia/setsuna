@@ -6,7 +6,7 @@ namespace setsuna {
 material_instance::material_instance(const material& prototype) :
     m_prototype{&prototype} {};
 
-bool material_instance::get_property(std::string_view name, float& out_value) {
+bool material_instance::get_property(std::string_view name, float& out_value) const {
 	auto search = std::find_if(m_prototype->properties_begin(),
 	                           m_prototype->properties_end(),
 	                           [&name](const auto& p) { return p.m_name == name; });
@@ -22,7 +22,7 @@ bool material_instance::get_property(std::string_view name, float& out_value) {
 	return false;
 }
 
-bool material_instance::get_property(std::string_view name, color& out_value) {
+bool material_instance::get_property(std::string_view name, color& out_value) const {
 	auto search = std::find_if(m_prototype->properties_begin(),
 	                           m_prototype->properties_end(),
 	                           [&name](const auto& p) { return p.m_name == name; });
@@ -38,7 +38,7 @@ bool material_instance::get_property(std::string_view name, color& out_value) {
 	return false;
 }
 
-bool material_instance::get_property(std::string_view name, setsuna::ref<texture>& out_value) {
+bool material_instance::get_property(std::string_view name, setsuna::ref<texture>& out_value) const {
 	auto search = std::find_if(m_prototype->properties_begin(),
 	                           m_prototype->properties_end(),
 	                           [&name](const auto& p) { return p.m_name == name; });
