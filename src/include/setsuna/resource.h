@@ -27,9 +27,26 @@ public:
 	resource();
 
 	/**
+	@brief Copy-constructor
+	*/
+	resource(const resource&);
+
+	/**
+	@brief Moving is not allowed
+	*/
+	resource(resource&&) = delete;
+
+	resource& operator=(resource&&) = delete;
+
+	/**
 	@brief Destructor
 	*/
 	virtual ~resource();
+
+	/**
+	@brief Copy assignment is not allowed
+	*/
+	resource& operator=(const resource&) = delete;
 
 	/**
 	@brief Increase the reference count

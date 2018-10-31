@@ -6,6 +6,11 @@ namespace setsuna {
 resource::resource() :
     m_ref_count{0} {}
 
+resource::resource(const resource&) :
+    m_ref_count{0} {
+	// copy nothing
+}
+
 resource::~resource() {
 	if (m_ref_count > 0) {
 		LOG_DEBUG("Destructing a resource with reference count %d", m_ref_count)
