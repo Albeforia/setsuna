@@ -11,8 +11,12 @@ texture::~texture() {
 	m_container->release(m_layer);
 }
 
-void texture::upload(GLint mip_level, GLenum data_type, const void* data) {
+void texture::set_image(GLint mip_level, GLenum data_type, const void* data) {
 	m_container->upload(mip_level, m_layer, data_type, data);
+}
+
+const texture_description& texture::description() const {
+	return m_container->description();
 }
 
 texture_address texture::address() const {

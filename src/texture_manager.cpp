@@ -19,7 +19,7 @@ texture_manager::texture_manager() :
 	// fallback pure white texture
 	auto white = 0xffffffff;
 	m_default_texture = new ref<texture>(new texture(*container, layer));
-	(*m_default_texture)->upload(0, GL_UNSIGNED_BYTE, &white);
+	(*m_default_texture)->set_image(0, GL_UNSIGNED_BYTE, &white);
 }
 
 texture_manager::~texture_manager() {

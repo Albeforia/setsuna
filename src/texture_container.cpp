@@ -83,8 +83,8 @@ texture_container::texture_container(const texture_description& desc,
 	                     ? 6 * m_layers_count
 	                     : m_layers_count);
 
-	glTextureParameteri(m_name, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTextureParameteri(m_name, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTextureParameteri(m_name, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+	glTextureParameteri(m_name, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	// mark all layers free
 	for (texture_layer l = 0; l < m_layers_count; ++l) {

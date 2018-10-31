@@ -38,9 +38,9 @@ public:
 	// TODO move
 
 	/**
-	@brief Upload image data
+	@brief Set image data
 
-	@param mip_level	The mip level to upload
+	@param mip_level	The mip level to set
 	@param data_type	The type of data, e.g. @p GL_UNSIGNED_BYTE
 	@param data			The image data
 
@@ -48,7 +48,12 @@ public:
 
 	If this is a cubemap, @p data is interpreted as @p array<void*, 6>* .
 	*/
-	void upload(GLint mip_level, GLenum data_type, const void* data);
+	void set_image(GLint mip_level, GLenum data_type, const void* data);
+
+	/**
+	@brief Get the texture description
+	*/
+	const texture_description& description() const;
 
 	/**
 	@brief Get the texture address

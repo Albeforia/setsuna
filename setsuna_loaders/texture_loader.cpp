@@ -30,7 +30,7 @@ void texture_loader::create_resource() {
 void texture_loader::main_thread_stage() {
 	if (m_data != nullptr) {
 		m_texture = texture_manager::instance().new_texture(m_desc);
-		m_texture->upload(0, GL_UNSIGNED_BYTE, m_data);
+		m_texture->set_image(0, GL_UNSIGNED_BYTE, m_data);
 	}
 
 	// data is useless now

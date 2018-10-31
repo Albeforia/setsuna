@@ -28,6 +28,8 @@ public:
 
 	void release(texture_layer);
 
+	const texture_description& description() const { return m_desc; }
+
 	texture_unit unit() const { return m_unit; }
 
 	void upload(GLint mip_level, texture_layer, GLenum data_type, const void* data);
