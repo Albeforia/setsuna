@@ -51,7 +51,8 @@ enum class texture_format : GLenum {
 	TF_RG8 = GL_RG8,
 	TF_RGB8 = GL_RGB8,
 	TF_RGBA8 = GL_RGBA8,
-	TF_DEPTH32 = GL_DEPTH_COMPONENT32
+	TF_DEPTH32 = GL_DEPTH_COMPONENT32,
+	TF_DEPTH24_STENCIL = GL_DEPTH24_STENCIL8
 };
 
 /**
@@ -80,6 +81,8 @@ constexpr GLenum sized_to_base(texture_format format) {
 		return GL_RGBA;
 	case texture_format::TF_DEPTH32:
 		return GL_DEPTH_COMPONENT;
+	case texture_format::TF_DEPTH24_STENCIL:
+		return GL_DEPTH_STENCIL;
 	default:
 		return GL_NONE;
 	}

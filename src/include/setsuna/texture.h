@@ -19,6 +19,7 @@ Use @ref setsuna::texture_manager to create a texture.
 class texture : public resource {
 
 	friend class texture_manager;
+	friend class framebuffer;
 
 	RTTI_ENABLE(texture, resource)
 
@@ -47,6 +48,8 @@ public:
 	If this is a 2D texture, @p data is interpreted as @p void* .
 
 	If this is a cubemap, @p data is interpreted as @p array<void*, 6>* .
+
+	Specify @p data as @p nullptr to invalidate the texture storage.
 	*/
 	void set_image(GLint mip_level, GLenum data_type, const void* data);
 

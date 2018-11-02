@@ -119,21 +119,34 @@ void texture_container::upload(GLint mip_level, texture_layer l,
                                GLenum data_type, const void* data) {
 	commit_or_free(l, true);
 
+	// NOTE NULL data cannot be used to invalidate immutable storage
 	// note glTexSubImage3D needs a BASE internal format while
 	// glTexStorage3D needs a SIZED internal format
 	if (m_desc.type == texture_type::TEX_CUBE_MAP) {
 		auto actual_data = static_cast<const std::array<void*, 6>*>(data);
 		// upload each face in the layer
 		for (int i = 0; i < 6; ++i) {
-			glTextureSubImage3D(m_name, mip_level, 0, 0, 6 * l + i,
-			                    m_desc.width, m_desc.height, 1, sized_to_base(m_desc.format​),
-			                    data_type, (*actual_data)[i]);
+			if (data == nullptr || (*actual_data)[i] == nullptr) {
+				glInvalidateTexSubImage(m_name, mip_level, 0, 0, 6 * l + i,
+				                        m_desc.width, m_desc.height, 1);
+			}
+			else {
+				glTextureSubImage3D(m_name, mip_level, 0, 0, 6 * l + i,
+				                    m_desc.width, m_desc.height, 1, sized_to_base(m_desc.format​),
+				                    data_type, (*actual_data)[i]);
+			}
 		}
 	}
 	else {
-		glTextureSubImage3D(m_name, mip_level, 0, 0, l,
-		                    m_desc.width, m_desc.height, 1, sized_to_base(m_desc.format​),
-		                    data_type, data);
+		if (data == nullptr) {
+			glInvalidateTexSubImage(m_name, mip_level, 0, 0, l,
+			                        m_desc.width, m_desc.height, 1);
+		}
+		else {
+			glTextureSubImage3D(m_name, mip_level, 0, 0, l,
+			                    m_desc.width, m_desc.height, 1, sized_to_base(m_desc.format​),
+			                    data_type, data);
+		}
 	}
 }
 
@@ -167,6 +180,8 @@ void texture_container::commit_or_free(texture_layer l, bool commit) {
 		width = std::max(1, width / 2);
 		height = std::max(1, height / 2);
 	}
+
+	glBindTexture(target, 0);
 }
 
 }  // namespace setsuna

@@ -6,8 +6,8 @@ set(SETSUNA_HEADER_FILES
     ${SETSUNA_INCLUDE_DIR}/setsuna/camera.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/color.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/component.h
-    #${SETSUNA_INCLUDE_DIR}/setsuna/cull_visitor.h
     #${SETSUNA_INCLUDE_DIR}/setsuna/directed_graph.h
+    ${SETSUNA_INCLUDE_DIR}/setsuna/framebuffer.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/frustum.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/geometry.h
     ${SETSUNA_INCLUDE_DIR}/setsuna/loader.h
@@ -39,7 +39,7 @@ set(SETSUNA_HEADER_FILES
 
 set(SETSUNA_SOURCE_FILES
     camera.cpp
-    #cull_visitor.cpp
+    framebuffer.cpp
     frustum.cpp
     geometry.cpp
     logger.cpp

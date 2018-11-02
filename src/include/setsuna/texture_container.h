@@ -32,6 +32,8 @@ public:
 
 	texture_unit unit() const { return m_unit; }
 
+	GLuint name() const { return m_name; }
+
 	void upload(GLint mip_level, texture_layer, GLenum data_type, const void* data);
 
 private:
