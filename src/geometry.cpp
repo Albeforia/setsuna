@@ -5,7 +5,8 @@ namespace setsuna {
 
 ref<mesh> geometry::sphere(float radius,
                            uint32_t width_segments, uint32_t height_segments,
-                           float phi_length, float theta_length) {
+                           float phi_length, float theta_length,
+                           bool invert_y) {
 	std::vector<glm::vec3> positions;
 	std::vector<glm::vec2> texcoords;
 	std::vector<glm::vec3> normals;
@@ -29,7 +30,7 @@ ref<mesh> geometry::sphere(float radius,
 
 			normals.emplace_back(glm::normalize(positions.back()));
 
-			texcoords.emplace_back(u, 1 - v);
+			texcoords.emplace_back(u, invert_y ? 1 - v : v);
 
 			grid_row.push_back(index++);
 		}
@@ -66,7 +67,8 @@ ref<mesh> geometry::sphere(float radius,
 }
 
 ref<mesh> geometry::plane(float width, float height,
-                          uint32_t width_segments, uint32_t height_segments) {
+                          uint32_t width_segments, uint32_t height_segments,
+                          bool invert_y) {
 	std::vector<glm::vec3> positions;
 	std::vector<glm::vec2> texcoords;
 	std::vector<glm::vec3> normals;
@@ -88,7 +90,7 @@ ref<mesh> geometry::plane(float width, float height,
 			normals.emplace_back(0, 0, 1);
 
 			texcoords.emplace_back(float(ix) / width_segments,
-			                       1 - (float(iy) / height_segments));
+			                       invert_y ? 1 - (float(iy) / height_segments) : float(iy) / height_segments);
 		}
 	}
 
