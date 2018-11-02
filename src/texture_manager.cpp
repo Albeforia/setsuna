@@ -5,7 +5,7 @@
 namespace setsuna {
 
 texture_manager::texture_manager() :
-    m_option{true, 1024} {
+    m_option{true, 32, 1024} {
 	// get max available texture units
 	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &m_max_texture_units);
 
@@ -52,6 +52,8 @@ void texture_manager::assign_unit(texture_unit unit, texture_container& containe
 
 std::tuple<texture_container*, texture_layer>
 texture_manager::next_free_layer(const texture_description& desc) {
+	bool sparse = m_option.sparse;
+
 	auto [it, _] = m_containers.try_emplace(desc);
 
 	for (auto& container : it->second) {
@@ -62,8 +64,9 @@ texture_manager::next_free_layer(const texture_description& desc) {
 	}
 
 	// if no containers have free layers, create a new one
+	auto max_layers = sparse ? m_option.max_layers_sparse : m_option.max_layers;
 	auto& new_container = it->second.emplace_back(
-	  new texture_container(desc, m_option.max_layers, m_option.sparse, next_texture_unit()));
+	  new texture_container(desc, max_layers, sparse, next_texture_unit()));
 	return std::make_tuple(new_container,
 	                       new_container->allocate().value());
 }

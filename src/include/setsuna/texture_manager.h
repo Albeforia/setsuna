@@ -20,11 +20,12 @@ public:
 	/**
 	@brief Texture manager option
 
-	Default value: @p sparse=true @p max_layers=1024
+	Default values: @p sparse=true , @p max_layers=32 , @p max_layers_sparse=1024
 	*/
 	struct option {
-		bool sparse;         /**< @brief Whether to use sparse texture array */
-		uint32_t max_layers; /**< @brief Max number of layers per texture array */
+		bool sparse;                /**< @brief Whether to use sparse texture array */
+		uint32_t max_layers;        /**< @brief Max number of layers per texture array */
+		uint32_t max_layers_sparse; /**< @brief Max number of layers per sparse texture array */
 	};
 
 public:
