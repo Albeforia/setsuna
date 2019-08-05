@@ -50,7 +50,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 # Core library
-add_subdirectory(src)
+add_subdirectory(setsuna_core)
 
 # Resource loaders
 if(SETSUNA_BUILD_LOADERS)
