@@ -23,8 +23,8 @@ public:
 	@brief Camera type
 	*/
 	enum class type {
-		CT_PERSPECTIVE, /**< @brief Perspective camera */
-		CT_ORTHOGRAPHIC /**< @brief Orthographic camera */
+		PERSPECTIVE, /**< @brief Perspective camera */
+		ORTHOGRAPHIC /**< @brief Orthographic camera */
 	};
 
 	/**
@@ -36,7 +36,7 @@ public:
 	@param nearp		Near plane
 	@param farp			Far plane
 
-	If @p t is @ref type::CT_PERSPECTIVE, then @p fov_or_size is interpreted as field of view.
+	If @p t is @ref type::PERSPECTIVE, then @p fov_or_size is interpreted as field of view.
 	Otherwise @p fov_or_size is interpreted as orthographic projection's half-size in vertical.
 	*/
 	camera(object3d&, type t,

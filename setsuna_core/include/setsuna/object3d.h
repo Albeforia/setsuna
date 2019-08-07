@@ -16,8 +16,8 @@ namespace setsuna {
 @brief How a @ref setsuna::object3d is positioned
 */
 enum class positioning_type {
-	PT_ABSOLUTE, /**< @brief Position using world coordinate */
-	PT_RELATIVE  /**< @brief Position relative to the parent, default option */
+	ABSOLUTE, /**< @brief Position using world coordinate */
+	RELATIVE  /**< @brief Position relative to the parent, default option */
 };
 
 /**
@@ -50,7 +50,7 @@ public:
 
 	@return The new child added
 	*/
-	object3d& add_child(positioning_type pt = positioning_type::PT_RELATIVE);
+	object3d& add_child(positioning_type pt = positioning_type::RELATIVE);
 
 	/**
 	@brief Add an existing object3d as a child
@@ -197,7 +197,7 @@ public:
 	/**
 	@brief Get the global transform matrix
 
-	If the object3d has no parent or the @ref #positioning is @ref positioning_type::PT_ABSOLUTE,
+	If the object3d has no parent or the @ref #positioning is @ref positioning_type::ABSOLUTE,
 	then it's identical to the local transform matrix.
 	*/
 	DirectX::XMMATRIX world_matrix() const { return XMLoadFloat4x4(&m_world_matrix); }

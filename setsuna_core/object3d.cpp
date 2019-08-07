@@ -5,7 +5,7 @@ namespace setsuna {
 
 object3d::object3d() :
     m_parent{nullptr},
-    positioning{positioning_type::PT_RELATIVE} {
+    positioning{positioning_type::RELATIVE} {
 	DirectX::XMStoreFloat4x4(&m_world_matrix, DirectX::XMMATRIX(local_transform));
 }
 
@@ -54,11 +54,11 @@ void object3d::clear_children() {
 void object3d::accept(visitor& vis) {
 	vis.apply(*this);
 
-	if (vis.mode == traversal_mode::TM_CHILDREN) {
+	if (vis.mode == traversal_mode::CHILDREN) {
 		for (auto& child : m_children) {
 			child->accept(vis);
-			// reset mode to TM_CHILDREN so that its neighbours won't be affected
-			vis.mode = traversal_mode::TM_CHILDREN;
+			// reset mode to CHILDREN so that its neighbours won't be affected
+			vis.mode = traversal_mode::CHILDREN;
 		}
 	}
 }

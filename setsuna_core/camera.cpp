@@ -10,7 +10,7 @@ camera::camera(object3d& o3d, type type,
                float fov_or_size, float aspect, float nearp, float farp) :
     component(o3d),
     m_type{type}, m_aspect{aspect}, m_near_plane{nearp}, m_far_plane{farp} {
-	if (m_type == type::CT_PERSPECTIVE) {
+	if (m_type == type::PERSPECTIVE) {
 		m_fov = fov_or_size;
 		m_orthographic_size = 5.0;
 	}
@@ -30,7 +30,7 @@ void camera::update() {
 }
 
 void camera::update_projection() {
-	if (m_type == type::CT_PERSPECTIVE) {
+	if (m_type == type::PERSPECTIVE) {
 		XMStoreFloat4x4(&m_projection_matrix,
 		                XMMatrixPerspectiveFovLH(XMConvertToRadians(m_fov), m_aspect, m_near_plane, m_far_plane));
 	}

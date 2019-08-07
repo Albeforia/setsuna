@@ -10,8 +10,8 @@ namespace setsuna {
 @brief How a @ref setsuna::visitor traverses the scene graph
 */
 enum class traversal_mode {
-	TM_CURRENT, /**< @brief Traverse current node only */
-	TM_CHILDREN /**< @brief Traverse all children */
+	CURRENT, /**< @brief Traverse current node only */
+	CHILDREN /**< @brief Traverse all children */
 };
 
 class object3d;
