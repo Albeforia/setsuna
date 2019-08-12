@@ -10,6 +10,7 @@ set(SETSUNA_CORE_HEADER_FILES
     ${SETSUNA_CORE_INCLUDE_DIR}/setsuna/object3d.h
     ${SETSUNA_CORE_INCLUDE_DIR}/setsuna/plane.h
     ${SETSUNA_CORE_INCLUDE_DIR}/setsuna/rtti.h
+    ${SETSUNA_CORE_INCLUDE_DIR}/setsuna/shared_queue.h
     ${SETSUNA_CORE_INCLUDE_DIR}/setsuna/sphere.h
     ${SETSUNA_CORE_INCLUDE_DIR}/setsuna/transform.h
     ${SETSUNA_CORE_INCLUDE_DIR}/setsuna/update_visitor.h
