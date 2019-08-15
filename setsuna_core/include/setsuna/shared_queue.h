@@ -51,6 +51,7 @@ public:
     */
 	template<class... Args>
 	decltype(auto) emplace(Args&&... args) {
+		std::lock_guard<std::mutex> lock(m_mutex);
 		//return m_queue.emplace(std::forward<Args>(args)...);
 		return m_queue.emplace(args...);
 	}

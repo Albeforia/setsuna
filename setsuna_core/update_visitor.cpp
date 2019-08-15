@@ -1,8 +1,6 @@
 #include <setsuna/update_visitor.h>
 #include <setsuna/object3d.h>
 
-using namespace DirectX;
-
 namespace setsuna {
 
 update_visitor::update_visitor() :
@@ -11,10 +9,10 @@ update_visitor::update_visitor() :
 void update_visitor::apply(object3d& o3d) {
 	if (o3d.parent() != nullptr && o3d.positioning != positioning_type::ABSOLUTE) {
 		o3d.set_world_matrix(
-		  XMMatrixMultiply(o3d.parent()->world_matrix(), XMMATRIX(o3d.local_transform)));
+		  o3d.parent()->world_matrix() * matrix4(o3d.local_transform));
 	}
 	else {
-		o3d.set_world_matrix(XMMATRIX(o3d.local_transform));
+		o3d.set_world_matrix(matrix4(o3d.local_transform));
 	}
 
 	// update every component after world matrix is refreshed

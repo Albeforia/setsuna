@@ -1,6 +1,8 @@
 #pragma once
 
-#include <DirectXMath.h>
+#include <setsuna/math/vector.h>
+#include <setsuna/math/matrix.h>
+#include <setsuna/math/quaternion.h>
 
 /** @file
 @brief Header for @ref setsuna::transform
@@ -16,12 +18,8 @@ Instead of directly modifying the quaternion, you could rotate a transform
 @p angle degrees around some @p axis like this:
 
 @code{.cpp}
-// if 'axis' is not normalized, use XMQuaternionRotationAxis() instead
-auto q = XMQuaternionRotationNormal(axis, XMConvertToRadians(angle));
-XMStoreFloat4(
-	&(trsfm.rotation),
-	XMQuaternionMultiply(XMLoadFloat4(&(trsfm.rotation)), q)
-);
+quaternion q(axis, to_radians(angle));
+trsfm.rotation = q * trsfm.rotation;
 @endcode
 */
 struct transform {
@@ -37,12 +35,16 @@ struct transform {
 	/**
 	@brief Convert to an affine transformation matrix
 	*/
-	explicit operator DirectX::XMMATRIX() const;
+	explicit operator matrix4() const {
+		return matrix4(DirectX::XMMatrixAffineTransformation(
+		  vector3(scale),
+		  vector4(0, 0, 0), quaternion(rotation),
+		  vector3(translation)));
+	}
 
-	// stored as XMFLOAT* to avoid explicit alignment
-	DirectX::XMFLOAT3 translation; /**< @brief Translation */
-	DirectX::XMFLOAT3 scale;       /**< @brief Scale */
-	DirectX::XMFLOAT4 rotation;    /**< @brief Rotation represented by a quaternion */
+	float3 translation; /**< @brief Translation */
+	float3 scale;       /**< @brief Scale */
+	float4 rotation;    /**< @brief Rotation represented by a quaternion */
 };
 
 }  // namespace setsuna

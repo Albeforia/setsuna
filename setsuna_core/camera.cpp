@@ -2,8 +2,6 @@
 #include <setsuna/camera.h>
 #include <setsuna/object3d.h>
 
-using namespace DirectX;
-
 namespace setsuna {
 
 camera::camera(object3d& o3d, type type,
@@ -23,21 +21,20 @@ camera::camera(object3d& o3d, type type,
 }
 
 void camera::update() {
-	auto vmat = XMMatrixInverse(nullptr, m_object->world_matrix());
-	auto pmat = XMLoadFloat4x4(&m_projection_matrix);
-	XMStoreFloat4x4(&m_view_matrix, vmat);
-	m_frustum = setsuna::frustum(XMMatrixMultiply(vmat, pmat));  // in world space
+	auto vmat = m_object->world_matrix().inverse();
+	m_view_matrix = vmat;
+
+	// frustum is in world space
+	m_frustum = setsuna::frustum(matrix4(m_projection_matrix) * vmat);
 }
 
 void camera::update_projection() {
 	if (m_type == type::PERSPECTIVE) {
-		XMStoreFloat4x4(&m_projection_matrix,
-		                XMMatrixPerspectiveFovLH(XMConvertToRadians(m_fov), m_aspect, m_near_plane, m_far_plane));
+		m_projection_matrix = perspective(to_radians(m_fov), m_aspect, m_near_plane, m_far_plane);
 	}
 	else {
 		float width = m_aspect * m_orthographic_size;
-		XMStoreFloat4x4(&m_projection_matrix,
-		                XMMatrixOrthographicLH(width * 2, m_orthographic_size * 2, m_near_plane, m_far_plane));
+		m_projection_matrix = orthographic(width * 2, m_orthographic_size * 2, m_near_plane, m_far_plane);
 	}
 }
 

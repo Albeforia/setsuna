@@ -1,7 +1,7 @@
 #pragma once
 
 #include <setsuna/component.h>
-#include <setsuna/transform.h>
+#include <setsuna/math/transform.h>
 #include <setsuna/visitor.h>
 #include <vector>
 #include <algorithm>
@@ -200,14 +200,12 @@ public:
 	If the object3d has no parent or the @ref #positioning is @ref positioning_type::ABSOLUTE,
 	then it's identical to the local transform matrix.
 	*/
-	DirectX::XMMATRIX world_matrix() const { return XMLoadFloat4x4(&m_world_matrix); }
+	matrix4 world_matrix() const { return m_world_matrix; }
 
 	/**
 	@brief Set the global transform matrix
 	*/
-	void set_world_matrix(const DirectX::XMMATRIX& m) {
-		DirectX::XMStoreFloat4x4(&m_world_matrix, m);
-	}
+	void set_world_matrix(const matrix4& m) { m_world_matrix = m; }
 
 	/**
 	@brief Get the parent
@@ -221,7 +219,7 @@ private:
 
 	std::vector<component*> m_components;
 
-	DirectX::XMFLOAT4X4 m_world_matrix;
+	float4x4 m_world_matrix;
 };
 
 }  // namespace setsuna

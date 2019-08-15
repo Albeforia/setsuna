@@ -1,6 +1,6 @@
 #pragma once
 
-#include <DirectXMath.h>
+#include <setsuna/math/vector.h>
 
 #include <array>
 
@@ -19,7 +19,9 @@ struct aabb {
 	/**
 	@brief Vertex type of the box, determined by @p dimensions
 	*/
-	using vertex_t = std::conditional_t<dimensions == 2, DirectX::XMFLOAT2, DirectX::XMFLOAT3>;
+	using vertex_t = std::conditional_t<dimensions == 2, float2, float3>;
+
+	using vector_t = std::conditional_t<dimensions == 2, vector2, vector3>;
 
 	/**
 	@brief Default constructor, initialize to an invalid status
@@ -27,38 +29,22 @@ struct aabb {
 	template<typename = std::enable_if_t<dimensions == 2 || dimensions == 3>>
 	aabb() { reset(); }
 
-	/** @brief Get the center of the box
+	/**
+	@brief Get the center of the box
 
-	@return A DirectX::XMVECTOR
+	@return A @ref setsuna::vector2 or @ref setsuna::vector3
 	*/
-	auto center() const {
-		if constexpr (dimensions == 2) {
-			return XMVectorScale(XMVectorAdd(
-			                       XMLoadFloat2(&max), XMLoadFloat2(&min)),
-			                     0.5f);
-		}
-		else {
-			return XMVectorScale(XMVectorAdd(
-			                       XMLoadFloat3(&max), XMLoadFloat3(&min)),
-			                     0.5f);
-		}
+	vector_t center() const {
+		return (vector_t(max) + vector_t(min)) * 0.5f;
 	}
 
-	/** @brief Get the extent of the box, i.e. the vector from @ref #min to the center
+	/**
+	@brief Get the extent of the box, i.e. the vector from @ref #min to the center
 
-	@return A DirectX::XMVECTOR
+	@return A @ref setsuna::vector2 or @ref setsuna::vector3
 	*/
-	auto extent() const {
-		if constexpr (dimensions == 2) {
-			return XMVectorScale(XMVectorSubtract(
-			                       XMLoadFloat2(&max), XMLoadFloat2(&min)),
-			                     0.5f);
-		}
-		else {
-			return XMVectorScale(XMVectorSubtract(
-			                       XMLoadFloat3(&max), XMLoadFloat3(&min)),
-			                     0.5f);
-		}
+	vector_t extent() const {
+		return (vector_t(max) - vector_t(min)) * 0.5f;
 	}
 
 	/**
@@ -66,10 +52,10 @@ struct aabb {
 
 	The length of returned array is 4 if @p dimensions is 2, otherwise 8
 
-	@return An array of DirectX::XMVECTOR
+	@return An array of @ref setsuna::vector2 or @ref setsuna::vector3
 	*/
 	auto corners() const {
-		std::array<XMVECTOR, 1 << dimensions> corners;
+		std::array<vector_t, 1 << dimensions> corners;
 		auto ctr = center();
 		auto ext = extent();
 
@@ -78,17 +64,13 @@ struct aabb {
 			if constexpr (dimensions == 2) {
 				auto x = (i & 1) == 0 ? 1.0f : -1.0f;
 				auto y = (i & 2) == 0 ? 1.0f : -1.0f;
-				corners[i] = XMVectorMultiplyAdd(XMVectorSet(x, y, 0.0f, 0.0f),
-				                                 ext,
-				                                 ctr);
+				corners[i] = ctr + vector_t(x, y) * ext;
 			}
 			else if constexpr (dimensions == 3) {
 				auto x = (i & 1) == 0 ? 1.0f : -1.0f;
 				auto y = (i & 2) == 0 ? 1.0f : -1.0f;
 				auto z = (i & 4) == 0 ? 1.0f : -1.0f;
-				corners[i] = XMVectorMultiplyAdd(XMVectorSet(x, y, z, 0.0f),
-				                                 ext,
-				                                 ctr);
+				corners[i] = ctr + vector_t(x, y, z) * ext;
 			}
 		}
 

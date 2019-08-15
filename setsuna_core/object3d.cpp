@@ -6,7 +6,7 @@ namespace setsuna {
 object3d::object3d() :
     m_parent{nullptr},
     positioning{positioning_type::RELATIVE} {
-	DirectX::XMStoreFloat4x4(&m_world_matrix, DirectX::XMMATRIX(local_transform));
+	m_world_matrix = matrix4(local_transform);
 }
 
 object3d::~object3d() {

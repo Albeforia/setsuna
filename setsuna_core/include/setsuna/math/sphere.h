@@ -1,6 +1,6 @@
 #pragma once
 
-#include <DirectXMath.h>
+#include <setsuna/math/vector.h>
 
 /** @file
 @brief Header for @ref setsuna::sphere
@@ -13,8 +13,8 @@ namespace setsuna {
 */
 struct sphere {
 
-	DirectX::XMFLOAT3 center; /**< @brief Center of the sphere */
-	float radius;             /**< @brief Radius of the sphere */
+	float3 center; /**< @brief Center of the sphere */
+	float radius;  /**< @brief Radius of the sphere */
 
 	/**
 	@brief Default constructor, initialize to an invalid sphere

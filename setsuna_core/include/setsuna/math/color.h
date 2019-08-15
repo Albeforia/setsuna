@@ -1,6 +1,6 @@
 #pragma once
 
-#include <DirectXMath.h>
+#include <setsuna/math/vector.h>
 
 /** @file
 @brief Header for @ref setsuna::color
@@ -48,20 +48,20 @@ struct color {
 	    m_r{c}, m_g{c}, m_b{c}, m_a{1.0f} {}
 
 	/**
-	@brief Construct from a DirectX::XMVECTOR
+	@brief Construct from a @ref setsuna::vector4
 	*/
-	color(DirectX::XMVECTOR v) {
-		m_r = DirectX::XMVectorGetX(v);
-		m_g = DirectX::XMVectorGetY(v);
-		m_b = DirectX::XMVectorGetZ(v);
-		m_a = DirectX::XMVectorGetW(v);
+	color(vector4 v) {
+		m_r = v.get_x();
+		m_g = v.get_y();
+		m_b = v.get_z();
+		m_a = v.get_w();
 	}
 
 	/**
-	@brief Convert to a DirectX::XMVECTOR
+	@brief Convert to a @ref setsuna::vector4
 	*/
-	explicit operator DirectX::XMVECTOR() const {
-		return DirectX::XMVectorSet(m_r, m_g, m_b, m_a);
+	explicit operator vector4() const {
+		return vector4(m_r, m_g, m_b, m_a);
 	}
 
 private:
@@ -77,6 +77,6 @@ We assume the provided hexadecimal value is sRGB.
 color c = 0xb22222_srgb; // {0.445201248, 0.0159962922, 0.0159962922, 1.0}	
 @endcode
 */
-color operator""_srgb(std::size_t hex);
+color operator""_srgb(uint64_t hex);
 
 }  // namespace setsuna

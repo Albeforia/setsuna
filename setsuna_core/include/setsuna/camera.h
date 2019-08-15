@@ -1,7 +1,7 @@
 #pragma once
 
 #include <setsuna/component.h>
-#include <setsuna/frustum.h>
+#include <setsuna/math/frustum.h>
 
 /** @file
 @brief Header for @ref setsuna::camera
@@ -12,7 +12,7 @@ namespace setsuna {
 /**
 @brief Camera component
 
-By default we use a left-handed coordinate system.
+By default we use a right-handed coordinate system.
 */
 class camera : public component {
 
@@ -31,7 +31,7 @@ public:
 	@brief Constructor
 
 	@param t			Type of the camera
-	@param fov_or_size	Field of view or orthographic size
+	@param fov_or_size	Vertical field of view (in degrees) or orthographic size
 	@param aspect		Aspect ratio
 	@param nearp		Near plane
 	@param farp			Far plane
@@ -50,12 +50,12 @@ public:
 	/**
 	@brief Get the projection matrix
 	*/
-	DirectX::XMMATRIX projection_matrix() const { return DirectX::XMLoadFloat4x4(&m_projection_matrix); }
+	matrix4 projection_matrix() const { return m_projection_matrix; }
 
 	/**
 	@brief Get the view matrix
 	*/
-	DirectX::XMMATRIX view_matrix() const { return DirectX::XMLoadFloat4x4(&m_view_matrix); }
+	matrix4 view_matrix() const { return m_view_matrix; }
 
 	/**
 	@brief Get the view frustum
@@ -78,8 +78,8 @@ private:
 	float m_fov, m_aspect, m_near_plane, m_far_plane;
 	float m_orthographic_size;
 
-	DirectX::XMFLOAT4X4 m_projection_matrix;
-	DirectX::XMFLOAT4X4 m_view_matrix;
+	float4x4 m_projection_matrix;
+	float4x4 m_view_matrix;
 
 	setsuna::frustum m_frustum;
 };

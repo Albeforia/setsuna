@@ -1,14 +1,11 @@
-#include <setsuna/frustum.h>
-
-using namespace DirectX;
+#include <setsuna/math/frustum.h>
 
 namespace setsuna {
 
-frustum::frustum(const XMMATRIX& mat) {
+frustum::frustum(const matrix4& mat) {
 	// ref: Fast Extraction of Viewing Frustum Planes from the WorldViewProjection Matrix
 
-	XMFLOAT4X4 m;
-	XMStoreFloat4x4(&m, mat);
+	float4x4 m(mat);
 
 	planes[0] = plane(m(0, 3) + m(0, 0), m(1, 3) + m(1, 0), m(2, 3) + m(2, 0), m(3, 3) + m(3, 0));
 	planes[1] = plane(m(0, 3) - m(0, 0), m(1, 3) - m(1, 0), m(2, 3) - m(2, 0), m(3, 3) - m(3, 0));
@@ -21,16 +18,16 @@ frustum::frustum(const XMMATRIX& mat) {
 bool frustum::intersect(const aabb<3>& box) const {
 	for (auto& plane : planes) {
 		auto max_dist = box.min;
-		if (plane.x >= 0) {
+		if (plane.coeffs.x >= 0) {
 			max_dist.x = box.max.x;
 		}
-		if (plane.y >= 0) {
+		if (plane.coeffs.y >= 0) {
 			max_dist.y = box.max.y;
 		}
-		if (plane.z >= 0) {
+		if (plane.coeffs.z >= 0) {
 			max_dist.z = box.max.z;
 		}
-		if (plane(XMLoadFloat3(&max_dist)) < 0) {
+		if (plane(max_dist) < 0) {
 			return false;
 		}
 	}
@@ -40,7 +37,7 @@ bool frustum::intersect(const aabb<3>& box) const {
 
 bool frustum::intersect(const sphere& sphere) const {
 	for (auto& plane : planes) {
-		if (plane(XMLoadFloat3(&(sphere.center))) < -sphere.radius) {
+		if (plane(sphere.center) < -sphere.radius) {
 			return false;
 		}
 	}

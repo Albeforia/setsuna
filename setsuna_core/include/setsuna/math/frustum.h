@@ -1,8 +1,9 @@
 #pragma once
 
-#include <setsuna/plane.h>
-#include <setsuna/aabb.h>
-#include <setsuna/sphere.h>
+#include <setsuna/math/common.h>
+#include <setsuna/math/plane.h>
+#include <setsuna/math/aabb.h>
+#include <setsuna/math/sphere.h>
 #include <array>
 
 /** @file
@@ -30,7 +31,7 @@ public:
 	/**
 	@brief Construct from a matrix
 	*/
-	explicit frustum(const DirectX::XMMATRIX&);
+	explicit frustum(const matrix4&);
 
 	/**
 	@brief Test whether the frustum intersects a @ref setsuna::aabb
