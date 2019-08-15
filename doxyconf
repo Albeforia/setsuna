@@ -162,7 +162,8 @@ FULL_PATH_NAMES        = YES
 # will be relative from the directory where doxygen is started.
 # This tag requires that the tag FULL_PATH_NAMES is set to YES.
 
-STRIP_FROM_PATH        = src/include \
+STRIP_FROM_PATH        = setsuna_core/include \
+                         setsuna_dx12/include \
                          setsuna_loaders/include
 
 # The STRIP_FROM_INC_PATH tag can be used to strip a user-defined part of the
@@ -172,7 +173,8 @@ STRIP_FROM_PATH        = src/include \
 # specify the list of include paths that are normally passed to the compiler
 # using the -I flag.
 
-STRIP_FROM_INC_PATH    = src/include \
+STRIP_FROM_INC_PATH    = setsuna_core/include \
+                         setsuna_dx12/include \
                          setsuna_loaders/include
 
 # If the SHORT_NAMES tag is set to YES, doxygen will generate much shorter (but
@@ -793,8 +795,8 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = src/ \
-                         setsuna_loaders/ \
+INPUT                  = setsuna_core/ \
+                         setsuna_dx12/ \
                          doc/
 
 # This tag can be used to specify the character encoding of the source files
@@ -2218,14 +2220,14 @@ DOT_NUM_THREADS        = 0
 # The default value is: Helvetica.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-DOT_FONTNAME           = Verdana
+DOT_FONTNAME           = Source Sans Pro
 
 # The DOT_FONTSIZE tag can be used to set the size (in points) of the font of
 # dot graphs.
 # Minimum value: 4, maximum value: 24, default value: 10.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-DOT_FONTSIZE           = 8
+DOT_FONTSIZE           = 16
 
 # By default doxygen will tell dot to use the default font as specified with
 # DOT_FONTNAME. If you specify a different font using DOT_FONTNAME you can set

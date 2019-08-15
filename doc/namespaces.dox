@@ -1,11 +1,19 @@
-/** @dir src/include/setsuna
-@brief Directory for core setsuna library headers
+/** @dir setsuna_core/include/setsuna
+@brief Directory for setsuna core library headers
 */
 
-/** @dir setsuna_loaders/include/setsuna_loaders
-@brief Directory for setsuna_loaders library headers
+/** @dir setsuna_core/include/setsuna/math
+@brief Directory for setsuna core math headers
+*/
+
+/** @dir setsuna_dx12/include/setsuna_dx12
+@brief Directory for DX12 API abstractions headers
 */
 
 /** @namespace setsuna
-@brief The core setsuna library
+@brief The setsuna core library
+*/
+
+/** @namespace setsuna_dx12
+@brief The graphics API abstractions for DX12
 */
